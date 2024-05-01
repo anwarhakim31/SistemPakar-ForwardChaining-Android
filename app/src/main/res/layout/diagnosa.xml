@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/diagnosa"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Diagnosa">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="52dp">
+
+        <CheckBox
+            android:id="@+id/demam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(G01) demam" />
+
+        <CheckBox
+            android:id="@+id/pilek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="pilek" />
+
+        <CheckBox
+            android:id="@+id/pusing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="pusing" />
+
+        <Button
+            android:id="@+id/prosesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PROSES DETEKSI PENYAKIT"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NAMA PENYAKIT"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/profileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Hello World!" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

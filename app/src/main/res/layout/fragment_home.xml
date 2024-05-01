@@ -1,0 +1,119 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/home"
+    tools:context=".HomeFragment">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="313dp"
+        android:clipToOutline="true"
+
+
+        android:scaleType="centerCrop"
+        android:src="@drawable/cat" />
+
+    <ImageView
+        android:id="@+id/profile_image_view"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="126dp"
+        android:layout_marginTop="41dp"
+        android:background="@drawable/circular_bg"
+        android:backgroundTint="@color/blue"
+        android:clipToOutline="true"
+        android:padding="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/profile" />
+
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="549dp"
+
+        android:lineHeight="40dp"
+        android:text="Sistem pakar diagnosa penyakit Kulit kucing meggunakan metode Forward Chaining"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="121dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/profile_image_view"
+        android:layout_alignStart="@+id/profile_image_view"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Selamat Datang"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcome"
+
+        android:layout_alignStart="@+id/welcome"
+        android:layout_alignEnd="@+id/welcome"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="21dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="username"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/copyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_title"
+            android:layout_centerInParent="true"
+        android:layout_marginTop="136dp"
+        android:layout_marginEnd="66dp"
+        android:text="Catcare 2024 © Anwar Hakim. All Right Reserved "
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tanggal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="01/05/2024"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

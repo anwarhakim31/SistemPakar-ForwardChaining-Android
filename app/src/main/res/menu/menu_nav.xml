@@ -1,0 +1,33 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_beranda"
+            android:icon="@drawable/nav_home"
+            android:title="Beranda"/>
+        <item
+            android:id="@+id/nav_penyakit"
+            android:icon="@drawable/bacteri"
+            android:title="Penyakir"/>
+        <item
+            android:id="@+id/nav_diagnosis"
+            android:icon="@drawable/diagnosis"
+            android:title="Diagnosis"/>
+        <item
+            android:id="@+id/nav_tentang"
+            android:icon="@drawable/nav_about"
+            android:title="Tentang"/>
+    </group>
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/nav_logout"
+                android:title="Keluar"/>
+        </menu>
+    </item>
+</menu>

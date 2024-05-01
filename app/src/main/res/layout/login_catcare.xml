@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@drawable/gradient"
+    tools:context=".Login">
+
+
+   <TextView
+       android:id="@+id/logo"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Login"
+         android:textColor="@color/colorBlack"
+       android:textSize="36sp"
+       android:textStyle="bold"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.498"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.245" />
+
+
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/laypass"
+       android:layout_width="0dp"
+       android:layout_height="60dp"
+       android:layout_marginTop="24dp"
+
+       app:layout_constraintEnd_toEndOf="@+id/etUsername"
+       app:layout_constraintHorizontal_bias="0.133"
+       app:layout_constraintStart_toStartOf="@+id/etUsername"
+       app:layout_constraintTop_toBottomOf="@+id/etUsername">
+
+      <EditText
+          android:id="@+id/etPassword"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/input_bg"
+          android:drawableLeft="@drawable/lock_icon"
+          android:drawablePadding="10dp"
+          android:ems="10"
+          android:hint="Password"
+          android:inputType="textPassword"
+          android:paddingLeft="23dp"
+          android:paddingRight="40dp"
+          android:textColor="@color/colorBlack"
+          android:textColorHint="@color/colorBlack"
+
+          android:textSize="18sp" />
+
+      <ImageView
+          android:id="@+id/show_pass_btn"
+          android:layout_width="40dp"
+          android:layout_height="32dp"
+          android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
+          android:layout_marginEnd="8dp"
+          android:alpha=".5"
+          android:onClick="ShowHidePass"
+          android:padding="5dp"
+          android:src="@drawable/eye"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="@+id/laypass"
+          app:layout_constraintTop_toTopOf="@+id/etPassword" />
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+   <EditText
+       android:id="@+id/etUsername"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginStart="32dp"
+       android:layout_marginTop="36dp"
+       android:layout_marginEnd="32dp"
+       android:background="@drawable/input_bg"
+       android:drawableLeft="@drawable/ic_person"
+       android:drawablePadding="10dp"
+       android:ems="10"
+       android:hint="Username"
+       android:inputType="text"
+       android:paddingLeft="15dp"
+       android:paddingTop="20dp"
+       android:paddingRight="15dp"
+       android:paddingBottom="20dp"
+       android:textColor="@color/colorBlack"
+       android:textColorHint="@color/colorBlack"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.0"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+
+   <TextView
+       android:id="@+id/forgotPassword"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="18dp"
+       android:text="Lupa Password?"
+       android:textColor="@color/blue"
+       android:textSize="14sp"
+       android:textStyle="bold"
+       app:layout_constraintEnd_toEndOf="@+id/laypass"
+       app:layout_constraintTop_toBottomOf="@+id/laypass" />
+
+   <Button
+       android:id="@+id/btnlogin"
+       android:layout_width="347dp"
+       android:layout_height="wrap_content"
+       android:layout_marginStart="35dp"
+       android:layout_marginEnd="35dp"
+       android:layout_marginTop="256dp"
+
+       android:background="@drawable/btn_bg"
+       android:text="Login"
+       android:textColor="@color/white"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+   <LinearLayout
+       android:id="@+id/linearLayout"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="16dp"
+       android:gravity="center"
+       android:orientation="horizontal"
+       android:textAlignment="center"
+       app:layout_constraintEnd_toEndOf="@+id/btnlogin"
+       app:layout_constraintHorizontal_bias="0.0"
+       app:layout_constraintStart_toStartOf="@+id/btnlogin"
+       app:layout_constraintTop_toBottomOf="@+id/btnlogin">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Belum memiliki akun?"
+          android:textColor="@color/colorBlack" />
+
+      <TextView
+          android:id="@+id/btnRegister"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_marginLeft="5dp"
+          android:text="buat akun"
+          android:textColor="@color/blue" />
+
+   </LinearLayout>
+
+   <!--   <Button-->
+   <!--       android:id="@+id/btnGoogle"-->
+   <!--       android:layout_width="359dp"-->
+   <!--       android:layout_height="43dp"-->
+   <!--       android:layout_marginStart="156dp"-->
+   <!--       android:layout_marginEnd="138dp"-->
+   <!--       android:background="@drawable/btn_bg"-->
+   <!--       android:drawableLeft="@drawable/ic_google"-->
+   <!--       android:drawablePadding="10dp"-->
+   <!--       android:paddingHorizontal="50dp"-->
+   <!--       android:text="Google"-->
+   <!--       android:textAlignment="center"-->
+   <!--       android:textAllCaps="false"-->
+   <!--       app:layout_constraintBottom_toBottomOf="parent"-->
+   <!--       app:layout_constraintEnd_toEndOf="parent"-->
+   <!--       app:layout_constraintStart_toStartOf="parent"-->
+   <!--       app:layout_constraintTop_toBottomOf="@+id/btnlogin"-->
+   <!--       app:layout_constraintVertical_bias="0.484" />-->
+
+   <androidx.constraintlayout.widget.Guideline
+       android:id="@+id/guideline"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       app:layout_constraintGuide_begin="20dp" />
+
+   <androidx.constraintlayout.widget.Guideline
+       android:id="@+id/guideline2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       app:layout_constraintGuide_begin="20dp" />
+
+   <androidx.constraintlayout.widget.Guideline
+       android:id="@+id/guideline3"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       app:layout_constraintGuide_begin="20dp" />
+
+   <ImageView
+       android:id="@+id/imageView2"
+       android:layout_width="121dp"
+       android:layout_height="99dp"
+       android:layout_marginStart="146dp"
+       android:layout_marginTop="29dp"
+       android:layout_marginEnd="146dp"
+       app:layout_constraintBottom_toTopOf="@+id/logo"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.41"
+       app:srcCompat="@drawable/__category_default" />
+
+   <androidx.constraintlayout.widget.Guideline
+       android:id="@+id/guideline4"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       app:layout_constraintGuide_begin="20dp" />
+
+   <androidx.constraintlayout.widget.Group
+       android:id="@+id/group"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       app:constraint_referenced_ids="linearLayout"
+       app:layout_constraintBottom_toTopOf="parent"
+       app:layout_constraintEnd_toStartOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent" />
+
+   <TextView
+       android:id="@+id/textView3"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginBottom="86dp"
+       android:text="Catcare 2024 "
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
