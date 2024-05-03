@@ -65,12 +65,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/input_bg"
-            android:drawableLeft="@drawable/lock_icon"
+            android:drawableLeft="@drawable/_1667"
             android:drawablePadding="10dp"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            android:paddingLeft="23dp"
+            android:paddingLeft="20dp"
             android:paddingRight="40dp"
             android:textColor="@color/colorBlack"
             android:textColorHint="@color/colorBlack"
@@ -121,11 +121,13 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="347dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:background="@drawable/btn_bg"
         android:text="Register"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +169,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.41"
-        app:srcCompat="@drawable/__category_default" />
+        app:srcCompat="@drawable/main" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
@@ -177,3 +179,4 @@
         app:layout_constraintGuide_begin="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -11,11 +11,15 @@
         <item
             android:id="@+id/nav_penyakit"
             android:icon="@drawable/bacteri"
-            android:title="Penyakir"/>
+            android:title="Penyakit"/>
         <item
             android:id="@+id/nav_diagnosis"
             android:icon="@drawable/diagnosis"
             android:title="Diagnosis"/>
+        <item
+            android:id="@+id/nav_riwayat"
+            android:icon="@drawable/history_svgrepo_com"
+            android:title="Riwayat"/>
         <item
             android:id="@+id/nav_tentang"
             android:icon="@drawable/nav_about"
@@ -30,4 +34,5 @@
                 android:title="Keluar"/>
         </menu>
     </item>
+
 </menu>
