@@ -1,32 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/gradient"
     android:id="@+id/diagnosa"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Hasil_Diagnosa">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:id="@+id/navbar"
+            android:elevation="4dp"
+            android:background="@color/blue"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <TextView
-        android:id="@+id/hasil_penyakit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="penyakit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="76dp"
+            android:layout_marginBottom="20dp"
+            android:text="Hasil dan Solusi"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="24dp" />
 
-    <TextView
-        android:id="@+id/solusi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="520dp"
-        android:text="sdadsadsa sadasd adsad asda sdasdias sadmaskdmaskmd asdmlasmdmasl;dm;a asmld;malsdma ;smad msladm;asldmasd as;"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/navbar"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardContainer"
+                android:orientation="vertical"
+                android:paddingBottom="76dp"
+                >
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:autoSizeMinTextSize="16dp"
+                    android:text="Bedasarkan data yang yang diterima :"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/border"
+                    android:layout_marginHorizontal="20dp">
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/dataDeterima"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:autoSizeMinTextSize="16dp"
+                        android:text="- minimal pilih 3 gejala"
+                        android:textSize="16dp" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp">
+
+                    <TextView
+                        android:id="@+id/hd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:autoSizeMinTextSize="16dp"
+                        android:text="kucing hakim31 kemungkinan menderita sdadas"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="20dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:scaleType="centerCrop"
+                            android:id="@+id/image"
+                            />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:id="@+id/defenisiHeader"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:autoSizeMinTextSize="16dp"
+                    android:text="Apa itu Sads :"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/defenisi"
+                        android:autoSizeMinTextSize="16dp"
+                        android:text="dengan hakim31 kemungkinan menderita sdadas"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:id="@+id/solusiHeader"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:autoSizeMinTextSize="16dp"
+                    android:text="Solusi dari Sadsa :"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/solusi"
+                        android:paddingVertical="12dp"
+                        android:autoSizeMinTextSize="16dp"
+                        android:text="dengan hakim31 kasdasdasdsadasd asdasdasda asdasdas asdasdasdasda asdasdasd sadasdasdasd asd asdemungkinan menderita sdadas"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingHorizontal="20dp"
+            android:orientation="horizontal"
+            android:backgroundTint="@color/muda"
+            app:cardElevation="4dp">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/btnBeranda"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_bgdark"
+                android:layout_marginHorizontal="20dp"
+
+
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textColor="@color/colorWhite"
+                    android:autoSizeMinTextSize="16dp"
+                    android:text="Beranda"
+                    android:textSize="16dp" />
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/home_white"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/btnDiagnosis"
+
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_bgdark"
+                android:layout_marginHorizontal="20dp"
+
+                android:paddingVertical="10dp"
+                android:layout_gravity="end"
+                android:paddingHorizontal="20dp"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:autoSizeMinTextSize="16dp"
+                    android:text="Diagnosis"
+                    android:textSize="16dp" />
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/diagnosis_white"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</RelativeLayout>

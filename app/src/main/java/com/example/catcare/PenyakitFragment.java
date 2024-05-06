@@ -55,7 +55,7 @@ public class PenyakitFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                    String namaPenyakit = snapshot.getKey();
+                    String namaPenyakit = snapshot.child("nama_penyakit").getValue(String.class);
                     String imageURL = snapshot.child("imageURL").getValue(String.class);
 
                     if (imageURL != null && !imageURL.isEmpty()) {

@@ -122,10 +122,10 @@ public class DiagnosisFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String gejalaId = snapshot.getKey();
-                    String gejalaName = snapshot.getValue(String.class);
+                    String idg = snapshot.child("id_gejala").getValue(String.class);
+                    String ng = snapshot.child("nama_gejala").getValue(String.class);
 
-                    if (gejalaId != null && gejalaName != null) {
+                    if (idg != null && ng != null) {
                         // Buat CardView baru
                         CardView cardView = new CardView(requireContext());
                         LinearLayout.LayoutParams cardLayoutParams = new LinearLayout.LayoutParams(
@@ -144,14 +144,14 @@ public class DiagnosisFragment extends Fragment {
 
                         // Buat CheckBox
                         CheckBox checkBox = new CheckBox(requireContext());
-                        checkBox.setId(gejalaId.hashCode()); // Gunakan hashCode dari gejalaId sebagai ID CheckBox
+                        checkBox.setId(idg.hashCode()); // Gunakan hashCode dari gejalaId sebagai ID CheckBox
                         LinearLayout.LayoutParams checkBoxParams = new LinearLayout.LayoutParams(
                                 0,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                         );
                         checkBoxParams.weight = 1;
                         checkBox.setLayoutParams(checkBoxParams);
-                        checkBox.setText(gejalaName);
+                        checkBox.setText(ng);
                         layout.addView(checkBox);
 
                         // Tambahkan CheckBox ke dalam array
@@ -177,7 +177,7 @@ public class DiagnosisFragment extends Fragment {
             username = args.getString("username");
         }
 
-        Toast.makeText(getContext(),  username, Toast.LENGTH_SHORT).show();
+
         StringBuffer gejalaTerpilih = new StringBuffer();
 
 

@@ -8,12 +8,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import android.widget.Toast;
 
-public class HomeFragment extends Fragment {
+import android.database.SQLException;
+import android.os.Bundle;
+import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.database.DatabaseHelper; // Sesuaikan dengan path package Anda
+import com.example.model.ModelDaftarPenyakit;
+
+public class HomeFragment extends Fragment {
+    private DatabaseHelper databaseHelper;
     private TextView dateTextView,name;
     private Calendar calendar;
 
@@ -31,6 +41,26 @@ public class HomeFragment extends Fragment {
         String username = getActivity().getIntent().getStringExtra("username");
         name.setText(username);
 
+        databaseHelper = new DatabaseHelper(getActivity());
+
+        try {
+            // 2. Buka koneksi ke database
+            databaseHelper.openDatabase();
+
+            // 3. Periksa koneksi
+            if (databaseHelper.isConnected()) {
+
+
+
+                Log.d("DatabaseStatus", "Connected to database");
+            } else {
+                // Koneksi belum terbuka
+                Log.d("DatabaseStatus", "Not connected to database");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Error opening database", Toast.LENGTH_SHORT).show();
+        }
 
 
         return view;
