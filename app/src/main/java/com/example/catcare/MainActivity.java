@@ -1,7 +1,5 @@
 package com.example.catcare;
 
-
-
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -61,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
         } else if (item.getItemId() == R.id.nav_logout) {
+            // Hapus status login dari SharedPreferences
+            getSharedPreferences("MyPrefs", MODE_PRIVATE).edit().putBoolean("isLoggedIn", false).apply();
             Intent logout = new Intent(MainActivity.this, Login.class);
             startActivity(logout);
             finish();
@@ -75,4 +75,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }}}
+        }
+    }
+}

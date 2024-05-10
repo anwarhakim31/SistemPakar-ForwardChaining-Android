@@ -93,15 +93,18 @@
             app:layout_constraintTop_toTopOf="@+id/etPassword" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <TextView
         android:id="@+id/have"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginRight="30dp"
         android:shadowColor="@color/blue"
         android:text="Sudah Memiliki Akun?"
         android:textColor="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/btnRegister"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
@@ -109,11 +112,9 @@
         android:id="@+id/memilikiAkun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="36dp"
         android:shadowColor="@color/blue"
-
         android:text="Login."
         android:textColor="@color/blue"
         app:layout_constraintStart_toEndOf="@+id/have"
@@ -123,11 +124,11 @@
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="36dp"
+        android:layout_marginEnd="35dp"
         android:background="@drawable/btn_bg"
         android:text="Register"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

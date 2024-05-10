@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_margin_bottom">25dp</dimen>
+    <dimen name="card_corner_radius">10dp</dimen>
+    <dimen name="card_elevation">5dp</dimen>
+    <dimen name="card_padding_horizontal">10dp</dimen>
+    <dimen name="card_padding_vertical">10dp</dimen>
+    <dimen name="label_value_spacing">8dp</dimen>
+    <dimen name="text_size">7sp</dimen>
+
+</resources>

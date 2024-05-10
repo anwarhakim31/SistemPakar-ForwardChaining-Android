@@ -1,6 +1,10 @@
 package com.example.catcare;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +46,17 @@ public class HomeFragment extends Fragment {
         name.setText(username);
 
         databaseHelper = new DatabaseHelper(getActivity());
+        if (username == null) {
+            SharedPreferences.Editor editor = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
+            editor.putBoolean("isLoggedIn", false);
+            editor.apply();
 
+
+            Intent logoutIntent = new Intent(requireContext(), Login.class);
+            logoutIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(logoutIntent);
+            requireActivity().finish();
+        }
         try {
             // 2. Buka koneksi ke database
             databaseHelper.openDatabase();

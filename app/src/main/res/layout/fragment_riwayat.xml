@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/riwayats"
     android:background="@drawable/gradient"
     tools:context=".RiwayatFragment">
-
 
 
     <TextView
@@ -16,59 +16,167 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="40dp"
-        android:text="Tentang Kami"
+        android:text="Riwayat Diagnosis"
         android:textAlignment="center"
         android:textColor="@color/colorBlack"
-        android:textSize="24dp"
-        />
+        android:textSize="24dp" />
 
 
 
-
-    <androidx.cardview.widget.CardView
-
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
 
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="4dp">
+        >
 
-        <TextView
-            android:id="@+id/textView3"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Catcare adalah sebuah aplikasi sistem pakar yang digunakan untuk mendiagnosis penyakit kulit pada kucing menggunakan metode Forward Chaining, dan dapat diakses melalui platform Android. Tujuannya adalah untuk memberikan bantuan cepat dan akurat dalam mengidentifikasi serta memberikan solusi terkait masalah kulit yang dialami oleh kucing, sehingga memungkinkan pemilik kucing atau petugas kesehatan hewan untuk memberikan perawatan yang tepat dan cepat kepada hewan peliharaan mereka."
-            android:textSize="20sp"
-            android:padding="10dp"
-            android:background="@color/colorWhite"
-            android:lineHeight="25dp"
-            android:textColor="@android:color/black" />
+            android:id="@+id/cardContainer"
+            android:orientation="vertical"
+            android:paddingHorizontal="15dp"
+            >
 
-    </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/copyright"
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
 
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:textAlignment="center"
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:paddingTop="50dp"-->
+<!--                    android:paddingBottom="50dp"-->
+<!--                    android:paddingHorizontal="15dp"-->
+<!--                    android:layout_centerInParent="true">-->
 
-        android:layout_marginBottom="30dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Catcare 2024 © Anwar Hakim. All Right Reserved."
-        android:textColor="@color/colorBlack"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:src="@drawable/no_data_icon"/>-->
 
+<!--                    <TextView-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Tidak ada riwayat"-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:layout_marginLeft="18dp"/>-->
+
+<!--                </LinearLayout>-->
+
+<!--            </RelativeLayout>-->
+
+
+
+
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="50px"-->
+<!--                app:cardCornerRadius="10dp"-->
+<!--                app:cardElevation="5dp">-->
+
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:paddingHorizontal="10dp"-->
+<!--                    android:paddingVertical="4dp">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Tanggal: "-->
+<!--                        android:textStyle="bold"-->
+<!--                        />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="31/05/2024"-->
+<!--                        android:layout_marginLeft="18dp"-->
+<!--                        />-->
+
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:paddingHorizontal="10dp"-->
+<!--                    android:paddingVertical="4dp"-->
+<!--                    android:layout_marginTop="30dp">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Username: "-->
+<!--                        android:textStyle="bold"-->
+<!--                        />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="hakim31"-->
+<!--                        android:layout_marginLeft="6dp"-->
+<!--                        />-->
+
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:paddingHorizontal="10dp"-->
+<!--                    android:paddingVertical="4dp"-->
+<!--                    android:layout_marginTop="60dp">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Penyakit: "-->
+<!--                        android:textStyle="bold"-->
+<!--                        />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="hakim31"-->
+<!--                        android:layout_marginLeft="15dp"-->
+<!--                        />-->
+
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:paddingHorizontal="10dp"-->
+<!--                    android:paddingVertical="4dp"-->
+<!--                    android:layout_marginTop="90dp">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Kepastian: "-->
+<!--                        android:textStyle="bold"-->
+<!--                        />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="80%"-->
+<!--                        -->
+<!--                        android:layout_marginLeft="8dp"-->
+<!--                        />-->
+
+<!--                </LinearLayout>-->
+
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

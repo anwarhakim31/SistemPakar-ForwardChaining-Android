@@ -1,6 +1,7 @@
 package com.example.catcare;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -28,9 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 public class Login extends AppCompatActivity {
 
     private EditText etUsername, etPassword;
-    private Button  btnLogin;
+    private Button btnLogin;
     private ImageView show_pass_btn;
-    private TextView btnRegister;
+       private TextView btnRegister, forgotPassword;
     private DatabaseReference database;
 
     @Override
@@ -48,6 +49,7 @@ public class Login extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         show_pass_btn = findViewById(R.id.show_pass_btn);
+         forgotPassword = findViewById(R.id.forgotPassword);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +103,11 @@ public class Login extends AppCompatActivity {
                             }
 
                             if (match) {
+                                // Simpan status login
+                                SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
+                                editor.putBoolean("isLoggedIn", true);
+                                editor.apply();
+
                                 Toast.makeText(getApplicationContext(), "Login Berhasil", Toast.LENGTH_SHORT).show();
                                 Intent masuk = new Intent(getApplicationContext(), MainActivity.class);
                                 masuk.putExtra("username", username);
@@ -119,7 +126,25 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+         forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this, Forgot.class));
+                finish();
+            }
+        });
+    }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Periksa status login saat aplikasi dibuka
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
+        if (isLoggedIn) {
+            // Pengguna sudah masuk, alihkan ke MainActivity
+            startActivity(new Intent(Login.this, MainActivity.class));
+            finish();
+        }
     }
 }

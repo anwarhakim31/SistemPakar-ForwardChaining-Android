@@ -1,5 +1,7 @@
 package com.example.catcare;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.text.Html;
@@ -14,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.util.TypedValue;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,24 +50,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import androidx.core.util.Pair;
+
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.catcare.HomeFragment;
 
 public class Hasil_Diagnosa extends AppCompatActivity {
 
@@ -76,14 +80,9 @@ public class Hasil_Diagnosa extends AppCompatActivity {
     private TextView solusi;
     private TextView tvNamaPenyakit;
 
-    private ArrayList<String> idPenyakitList = new ArrayList<>();
-    private HashMap<String, Double> kosong = new HashMap<>();
-    private HashMap<String, Double> mapHasil = new HashMap<>();
-    private double cf_gabungan;
-    private int i;
-
+    private Calendar calendar;
     SQLiteDatabase sqLiteDatabase;
-    MaterialButton btnDiagnosaUlang, btnDaftarPenyakit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,16 +90,20 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.hasil_diagnosa);
-        LinearLayout btnDiagnosis = findViewById(R.id.btnDiagnosis);
-        LinearLayout btnBeranda = findViewById(R.id.btnBeranda);
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.diagnosa), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         Toolbar toolbar = findViewById(R.id.navbar);
         setSupportActionBar(toolbar);
 
+
+        LinearLayout btnBeranda = findViewById(R.id.btnBeranda);
+        LinearLayout btnDiagnosis = findViewById(R.id.btnDiagnosis);
         containerDataDiterima = findViewById(R.id.dataDeterima);
         tvNamaPenyakit = findViewById(R.id.hd);
         defenisiHeader = findViewById(R.id.defenisiHeader);
@@ -109,64 +112,75 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         solusi = findViewById(R.id.solusi);
         ImageView imageView = findViewById(R.id.image);
 
+
+        calendar = Calendar.getInstance();
+
+
+        String dateFormat = "dd/MM/yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.getDefault());
+
+
+        String tanggal = simpleDateFormat.format(calendar.getTime());
+
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        if (databaseHelper.openDatabase())
+            sqLiteDatabase = databaseHelper.getReadableDatabase();
+
         String str_hasil = getIntent().getStringExtra("HASIL");
         String username = getIntent().getStringExtra("username");
 
-
-        String[] gejala_terpilih = str_hasil != null ? str_hasil.split("#") : new String[0];
+        String[] gejala_terpilih = new String[0];
+        if (str_hasil != null) {
+            gejala_terpilih = str_hasil.split("#");
+        }
 
         double cf_gabungan;
         double cf;
         HashMap<String, Double> mapHasil = new HashMap<>();
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-        sqLiteDatabase = dbHelper.getReadableDatabase();
-
-
         String query_penyakit = "SELECT id_penyakit FROM penyakit order by id_penyakit";
         Cursor cursor_penyakit = sqLiteDatabase.rawQuery(query_penyakit, null);
+        int i = 0;
         while (cursor_penyakit.moveToNext()) {
             cf_gabungan = (double) 0;
-            int i = 0;
 
             String query_rule = "SELECT nilai_cf, id_gejala FROM rules where id_penyakit = '" + cursor_penyakit.getString(0) + "'";
             Cursor cursor_rule = sqLiteDatabase.rawQuery(query_rule, null);
             while (cursor_rule.moveToNext()) {
                 cf = cursor_rule.getDouble(0);
                 for (String s_gejala_terpilih : gejala_terpilih) {
+
                     String query_gejala = "SELECT id_gejala FROM gejala where nama_gejala = '" + s_gejala_terpilih + "'";
                     Cursor cursor_gejala = sqLiteDatabase.rawQuery(query_gejala, null);
-
-                    Log.d("rule", cursor_rule.getString(1));
-                    Log.d("rule", s_gejala_terpilih);
-
                     cursor_gejala.moveToFirst();
-                    Log.d("gejala", cursor_gejala.getString(0));
-                    if (cursor_gejala.moveToFirst()) {
-                        Log.d("gejala", String.valueOf(cursor_rule.getString(1).equals(cursor_gejala.getString(0))));
-                        if (cursor_rule.getString(1).equals(cursor_gejala.getString(0))) {
-                            if (i > 1) {
-                                cf_gabungan = cf + (cf_gabungan * (1 - cf));
-                            } else if (i == 1) {
-                                cf_gabungan = cf_gabungan + (cf * (1 - cf_gabungan));
-                            } else {
-                                cf_gabungan = cf;
-                            }
-                            i++;
+
+
+
+                    if (cursor_rule.getString(1).equals(cursor_gejala.getString(0))) {
+                        if (i > 1) {
+                            cf_gabungan = cf + (cf_gabungan * (1 - cf));
+                        } else if (i == 1) {
+                            Log.d("index", String.valueOf(i));
+                            Log.d("index", String.valueOf(cf_gabungan + (cf * (1 - cf_gabungan))));
+                            Log.d("index", String.valueOf(cf_gabungan*100));
+                            cf_gabungan = cf_gabungan + (cf * (1 - cf_gabungan));
+                        } else {
+
+                            cf_gabungan = cf;
                         }
-                        cursor_gejala.close();
-                    } else {
 
-                        Log.e("CursorEmpty", "Cursor_gejala is empty");
+                        i++;
                     }
+                    cursor_gejala.close();
                 }
-
             }
             cursor_rule.close();
-            mapHasil.put(cursor_penyakit.getString(0), cf_gabungan * 100);
 
+            mapHasil.put(cursor_penyakit.getString(0), cf_gabungan * 100);
         }
         cursor_penyakit.close();
+
 
         StringBuffer output_gejala_terpilih = new StringBuffer();
         int no = 1;
@@ -185,6 +199,7 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         String kode_penyakit = entry.getKey();
         double hasil_cf = entry.getValue();
         int persentase = (int) hasil_cf;
+        Log.d("TAG", String.valueOf(hasil_cf));
 
         String query_penyakit_hasil = "SELECT nama_penyakit FROM penyakit where id_penyakit='" + kode_penyakit + "'";
         Cursor cursor_hasil = sqLiteDatabase.rawQuery(query_penyakit_hasil, null);
@@ -194,17 +209,18 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         String namaPenyakit = cursor_hasil.getString(0);
 
 
-        String coloredNamaPenyakit = "<font color='#007cfd'>" + namaPenyakit + "</font>";
+        String coloredNamaPenyakit = "<font color='#007cfd' ><b>" + namaPenyakit + "</b></font>";
+        String persen = "<font color='#007cfd' ><b>" + persentase + "</b></font>";
 
-
-        tvNamaPenyakit.setText(Html.fromHtml("Kucing " + username + " kemungkinan menderita " + coloredNamaPenyakit + " dengan tingkat kepastian " + persentase + "%"));
+        tvNamaPenyakit.setText(Html.fromHtml("Kucing " + username + " kemungkinan menderita " + coloredNamaPenyakit + " dengan tingkat kepastian " + persen + "%"));
 
         cursor_hasil.close();
 
         DatabaseReference penyakitRef = FirebaseDatabase.getInstance().getReference("penyakit");
 
 
-        penyakitRef.addValueEventListener(new ValueEventListener() {
+
+        penyakitRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -224,33 +240,64 @@ public class Hasil_Diagnosa extends AppCompatActivity {
                     defenisi.setText(penjelasan);
                     solusi.setText(solution);
 
+                        DatabaseReference riwayatRef = FirebaseDatabase.getInstance().getReference("Riwayat");
+
+                        Map<String, Object> riwayatData = new HashMap<>();
+                        riwayatData.put("penyakit", namaPenyakit);
+                        riwayatData.put("persentase", persentase);
+                        riwayatData.put("tanggal", tanggal);
+                        riwayatData.put("hasil", str_hasil);
+
+
+                        riwayatRef.child(username).push().setValue(riwayatData);
                         break;
                     }
 
+
+
+
+
+
                 }
             }
+
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
             }
+
         });
 
 
-//        btnDiagnosaUlang.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                finish();
-//            }
-//        });
-//
-//        btnDaftarPenyakit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(Hasil_Diagnosa.this, Hasil_Diagnosa.class);
-//                startActivity(intent);
-//            }
-//        });
+        btnDiagnosis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DiagnosisFragment diagnosisFragment = new DiagnosisFragment();
+                Bundle args = new Bundle();
+                args.putString("username", username); // Ganti "key" dengan kunci yang Anda inginkan dan value dengan nilai variabel yang ingin Anda kirim
+                diagnosisFragment.setArguments(args);
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.diagnosa, diagnosisFragment)
+                        .commit();
+
+            }
+        });
+
+        btnBeranda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Buat objek fragment yang akan dituju
+                Intent masuk = new Intent(getApplicationContext(), MainActivity.class);
+                masuk.putExtra("username", username);
+                startActivity(masuk);
+                finish();
+            }
+        });
     }
 
     public static HashMap<String, Double> sortByValue(HashMap<String, Double> hm) {
@@ -281,5 +328,6 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }

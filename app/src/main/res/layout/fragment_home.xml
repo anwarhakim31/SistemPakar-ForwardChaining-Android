@@ -8,6 +8,8 @@
     android:id="@+id/home"
     tools:context=".HomeFragment">
 
+
+
     <ImageView
         android:id="@+id/background"
         android:layout_width="match_parent"
