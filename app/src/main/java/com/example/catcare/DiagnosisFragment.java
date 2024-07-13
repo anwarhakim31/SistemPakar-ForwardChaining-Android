@@ -4,6 +4,7 @@ package com.example.catcare;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,9 +122,6 @@ public class DiagnosisFragment extends Fragment {
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("gejala");
 
-
-
-
         Query query = databaseReference.orderByChild("id_gejala");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -207,6 +205,7 @@ public class DiagnosisFragment extends Fragment {
                 if (gejalaTerpilih.length() == 0) {
                     Toast.makeText(getContext(), "Silakan pilih gejala dahulu!", Toast.LENGTH_SHORT).show();
                 } else {
+
                     Intent intent = new Intent(requireContext(), Hasil_Diagnosa.class);
                     intent.putExtra("HASIL", gejalaTerpilih.toString());
                     intent.putExtra("username", username);

@@ -135,49 +135,44 @@ public class Hasil_Diagnosa extends AppCompatActivity {
             gejala_terpilih = str_hasil.split("#");
         }
 
-        double cf_gabungan;
-        double cf;
+
         HashMap<String, Double> mapHasil = new HashMap<>();
 
-        String query_penyakit = "SELECT id_penyakit FROM penyakit order by id_penyakit";
+        String query_penyakit = "SELECT id_penyakit FROM penyakit ORDER BY id_penyakit";
         Cursor cursor_penyakit = sqLiteDatabase.rawQuery(query_penyakit, null);
-        int i = 0;
+
         while (cursor_penyakit.moveToNext()) {
-            cf_gabungan = (double) 0;
+            String id_penyakit = cursor_penyakit.getString(0);
 
-            String query_rule = "SELECT nilai_cf, id_gejala FROM rules where id_penyakit = '" + cursor_penyakit.getString(0) + "'";
-            Cursor cursor_rule = sqLiteDatabase.rawQuery(query_rule, null);
-            while (cursor_rule.moveToNext()) {
-                cf = cursor_rule.getDouble(0);
-                for (String s_gejala_terpilih : gejala_terpilih) {
+            String query_rule = "SELECT COUNT(*) FROM rules WHERE id_penyakit = '" + id_penyakit + "'";
+            Cursor cursor_rule_count = sqLiteDatabase.rawQuery(query_rule, null);
+            cursor_rule_count.moveToFirst();
+            int total_gejala_dengan_gangguan = cursor_rule_count.getInt(0);
+            cursor_rule_count.close();
 
-                    String query_gejala = "SELECT id_gejala FROM gejala where nama_gejala = '" + s_gejala_terpilih + "'";
-                    Cursor cursor_gejala = sqLiteDatabase.rawQuery(query_gejala, null);
-                    cursor_gejala.moveToFirst();
+            int jumlah_gejala_terpilih_dengan_gangguan = 0;
 
+            for (String s_gejala_terpilih : gejala_terpilih) {
+                String query_gejala = "SELECT id_gejala FROM gejala WHERE nama_gejala = '" + s_gejala_terpilih + "'";
+                Cursor cursor_gejala = sqLiteDatabase.rawQuery(query_gejala, null);
+                cursor_gejala.moveToFirst();
 
+                String id_gejala = cursor_gejala.getString(0);
 
-                    if (cursor_rule.getString(1).equals(cursor_gejala.getString(0))) {
-                        if (i > 1) {
-                            cf_gabungan = cf + (cf_gabungan * (1 - cf));
-                        } else if (i == 1) {
-                            Log.d("index", String.valueOf(i));
-                            Log.d("index", String.valueOf(cf_gabungan + (cf * (1 - cf_gabungan))));
-                            Log.d("index", String.valueOf(cf_gabungan*100));
-                            cf_gabungan = cf_gabungan + (cf * (1 - cf_gabungan));
-                        } else {
+                String query_check_rule = "SELECT COUNT(*) FROM rules WHERE id_penyakit = '" + id_penyakit + "' AND id_gejala = '" + id_gejala + "'";
+                Cursor cursor_check_rule = sqLiteDatabase.rawQuery(query_check_rule, null);
+                cursor_check_rule.moveToFirst();
 
-                            cf_gabungan = cf;
-                        }
-
-                        i++;
-                    }
-                    cursor_gejala.close();
+                if (cursor_check_rule.getInt(0) > 0) {
+                    jumlah_gejala_terpilih_dengan_gangguan++;
                 }
-            }
-            cursor_rule.close();
 
-            mapHasil.put(cursor_penyakit.getString(0), cf_gabungan * 100);
+                cursor_check_rule.close();
+                cursor_gejala.close();
+            }
+
+            double probabilitas = ((double) jumlah_gejala_terpilih_dengan_gangguan / total_gejala_dengan_gangguan) * 100;
+            mapHasil.put(id_penyakit, probabilitas);
         }
         cursor_penyakit.close();
 
@@ -199,7 +194,7 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         String kode_penyakit = entry.getKey();
         double hasil_cf = entry.getValue();
         int persentase = (int) hasil_cf;
-        Log.d("TAG", String.valueOf(hasil_cf));
+
 
         String query_penyakit_hasil = "SELECT nama_penyakit FROM penyakit where id_penyakit='" + kode_penyakit + "'";
         Cursor cursor_hasil = sqLiteDatabase.rawQuery(query_penyakit_hasil, null);
@@ -300,20 +295,14 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         });
     }
 
-    public static HashMap<String, Double> sortByValue(HashMap<String, Double> hm) {
-        List<Map.Entry<String, Double>> list = new LinkedList<Map.Entry<String, Double>>(hm.entrySet());
-
-        Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
-            public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
-                return (o2.getValue()).compareTo(o1.getValue());
-            }
-        });
-
-        HashMap<String, Double> temp = new LinkedHashMap<String, Double>();
-        for (Map.Entry<String, Double> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
+    private static Map<String, Double> sortByValue(Map<String, Double> unsortMap) {
+        List<Map.Entry<String, Double>> list = new LinkedList<>(unsortMap.entrySet());
+        list.sort(Map.Entry.comparingByValue((o1, o2) -> o2.compareTo(o1)));
+        Map<String, Double> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Double> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
         }
-        return temp;
+        return sortedMap;
     }
 
 

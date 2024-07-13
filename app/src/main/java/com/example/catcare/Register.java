@@ -311,9 +311,9 @@ public class Register extends AppCompatActivity {
                                 return;
                             } else {
 
-                                database.child("users").child(username).child("username").setValue(username);
-                                database.child("users").child(username).child("email").setValue(email);
-                                database.child("users").child(username).child("password").setValue(password);
+                                database.child(username).child("username").setValue(username);
+                                database.child(username).child("email").setValue(email);
+                                database.child(username).child("password").setValue(password);
 
 
                                 Toast.makeText(Register.this, "Berhasil membuat akun", Toast.LENGTH_SHORT).show();
