@@ -152,23 +152,23 @@
 
    </LinearLayout>
 
-<!--   <Button-->
-<!--       android:id="@+id/google"-->
-<!--       android:layout_width="match_parent"-->
-<!--       android:layout_height="43dp"-->
-<!--       android:layout_marginTop="70dp"-->
-<!--       android:layout_marginHorizontal="100dp"-->
-<!--       android:background="@drawable/btn_bgdark"-->
-<!--       android:drawableLeft="@drawable/ic_google"-->
-<!--       android:drawablePadding="10dp"-->
-<!--       android:paddingHorizontal="50dp"-->
-<!--       android:textColor="@color/colorWhite"-->
-<!--       android:text="Google"-->
-<!--       android:textAlignment="center"-->
-<!--       android:textAllCaps="false"-->
-<!--       app:layout_constraintEnd_toEndOf="parent"-->
-<!--       app:layout_constraintStart_toStartOf="parent"-->
-<!--       app:layout_constraintTop_toBottomOf="@+id/btnlogin" />-->
+   <Button
+       android:id="@+id/google"
+       android:layout_width="match_parent"
+       android:layout_height="43dp"
+       android:layout_marginTop="70dp"
+       android:layout_marginHorizontal="100dp"
+       android:background="@drawable/btn_bgdark"
+       android:drawableLeft="@drawable/ic_google"
+       android:drawablePadding="10dp"
+       android:paddingHorizontal="50dp"
+       android:textColor="@color/colorWhite"
+       android:text="Google"
+       android:textAlignment="center"
+       android:textAllCaps="false"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/btnlogin" />
 
    <androidx.constraintlayout.widget.Guideline
        android:id="@+id/guideline"

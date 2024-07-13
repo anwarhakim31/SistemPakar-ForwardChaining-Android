@@ -27,15 +27,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private boolean needUpdate = false;
 
     public DatabaseHelper(Context context) {
-        super(context.getApplicationContext(), DB_NAME, null, DB_VERSION);
-        DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
-        this.ctx = context.getApplicationContext();
+        super(context, DB_NAME, null, DB_VERSION);
+        DB_PATH = "/data/data/" + context.getPackageName() + "/databases/"; //path database
+        this.ctx = context;
 
         copyDatabase();
 
-        this.getWritableDatabase();
+        this.getReadableDatabase();
     }
 
+    //fungsi untuk update database, jika diperlukan
     public void updateDatabase() throws IOException {
         if (needUpdate) {
             File dbFile = new File(DB_PATH + DB_NAME);
@@ -48,11 +49,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //fungsi untuk membuka koneksi ke database
     public boolean openDatabase() throws SQLException {
-        sqLiteDatabase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+        sqLiteDatabase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         return sqLiteDatabase != null;
     }
 
+    //fungsi untuk close koneksi database
     @Override
     public synchronized void close() {
         if (sqLiteDatabase != null)
@@ -60,24 +63,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super.close();
     }
 
+    //fungsi untuk cek apakah file database sudah ada atau tidak
     private boolean checkDatabase() {
         File dbFile = new File(DB_PATH + DB_NAME);
         return dbFile.exists();
     }
 
+    //fungsi untuk copy database yang sudah dibuat sebelumnya di folder assets ke dalam aplikasi
     private void copyDatabase() {
         if (!checkDatabase()) {
             this.getReadableDatabase();
             this.close();
             try {
                 copyDBFile();
-                setDatabaseWritable();
             } catch (IOException e) {
                 throw new Error("ErrorCopyingDatabase");
             }
         }
     }
 
+    //fungsi untuk copy database dari folder asset
     private void copyDBFile() throws IOException {
         InputStream inputStream = ctx.getAssets().open(DB_NAME);
         OutputStream outputStream = new FileOutputStream(DB_PATH + DB_NAME);
@@ -90,21 +95,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         inputStream.close();
     }
 
-    private void setDatabaseWritable() {
-        File dbFile = new File(DB_PATH + DB_NAME);
-        dbFile.setWritable(true);
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
     }
 
+    //jika versi database lebih baru maka perlu di update
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
         if (newVersion > oldVersion)
             needUpdate = true;
     }
 
+    //get list daftar penyakit
     public ArrayList<ModelDaftarPenyakit> getDaftarPenyakit() {
         ArrayList<ModelDaftarPenyakit> draftOffline = new ArrayList<>();
         SQLiteDatabase database = this.getWritableDatabase();
@@ -127,6 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase != null && sqLiteDatabase.isOpen();
     }
 
+    //get list gejala
     public ArrayList<ModelKonsultasi> getDaftarGejala() {
         ArrayList<ModelKonsultasi> draftOffline = new ArrayList<>();
         SQLiteDatabase database = this.getWritableDatabase();
@@ -143,5 +146,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.close();
         return draftOffline;
     }
+
 }
 

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "854021164345",
+    "firebase_url": "https://catcare-736ed-default-rtdb.firebaseio.com",
     "project_id": "catcare-736ed",
     "storage_bucket": "catcare-736ed.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.catcare"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "854021164345-kn7qso1omflo42lrstrmcu3pr074nipr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.catcare",
+            "certificate_hash": "b0256cc1d72d05c8382dbf4e0250ffcbc8d0841e"
+          }
+        },
+        {
+          "client_id": "854021164345-51ov84r2l12r8cr7i6fj3irm1ofm5u27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAcxrGHCD9hii1RJed55ETfqqg1gNbuXWo"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854021164345-51ov84r2l12r8cr7i6fj3irm1ofm5u27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

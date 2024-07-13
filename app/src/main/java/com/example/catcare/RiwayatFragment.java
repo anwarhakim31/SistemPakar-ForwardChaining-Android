@@ -1,9 +1,8 @@
 package com.example.catcare;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,42 +22,59 @@ import android.widget.ImageView;
 public class RiwayatFragment extends Fragment {
     private DatabaseReference database;
     boolean riwayatFound = false;
-
+    private String[] Email;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_riwayat, container, false);
 
         String username = getActivity().getIntent().getStringExtra("username");
+        String email = getActivity().getIntent().getStringExtra("email");
 
         database = FirebaseDatabase.getInstance().getReference("Riwayat");
 
+
+        if(email!=null){
+            Email =  email != null ? email.split("@"):new String[0];
+        }
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (isAdded()) { // Periksa apakah fragment sudah terpasang ke activity
                     LinearLayout cardContainer = view.findViewById(R.id.cardContainer);
 
-                    // Bersihkan kontainer sebelum menambahkan data baru
+
                     cardContainer.removeAllViews();
 
                     for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        String dbusername = userSnapshot.getKey(); // Dapatkan nama pengguna (username)
+                        String dbusername = userSnapshot.getKey();
+                        if (email != null && Email[0].equals(dbusername)) {
+                            for (DataSnapshot riwayatSnapshot : userSnapshot.getChildren()) {
 
-                        // Jika pengguna saat ini adalah pengguna yang sedang diperiksa
-                        if (username != null && username.equals(dbusername)) {
+
+                                String penyakit = riwayatSnapshot.child("penyakit").getValue(String.class);
+                                Double persentase = riwayatSnapshot.child("persentase").getValue(Double.class);
+                                String tanggal = riwayatSnapshot.child("tanggal").getValue(String.class);
+
+
+                                CardView cardView = createCardView(dbusername, penyakit, persentase, tanggal);
+                                cardContainer.addView(cardView);
+                                riwayatFound = true;
+                            }
+                            return;
+                        } else if (username != null && username.equals(dbusername)) {
                             for (DataSnapshot riwayatSnapshot : userSnapshot.getChildren()) {
                                 String pushId = riwayatSnapshot.getKey(); // Dapatkan push ID unik untuk setiap riwayat
 
                                 String penyakit = riwayatSnapshot.child("penyakit").getValue(String.class);
-                                String hasil = riwayatSnapshot.child("hasil").getValue(String.class);
                                 Double persentase = riwayatSnapshot.child("persentase").getValue(Double.class);
                                 String tanggal = riwayatSnapshot.child("tanggal").getValue(String.class);
 
-                                // Buat CardView untuk setiap riwayat dan tambahkan ke tampilan
-                                CardView cardView = createCardView(dbusername, penyakit, persentase, tanggal,hasil);
+
+                                CardView cardView = createCardView(dbusername, penyakit, persentase, tanggal);
                                 cardContainer.addView(cardView);
                                 riwayatFound = true;
                             }
+                            return;
                         }
                     }
 
@@ -81,7 +97,7 @@ public class RiwayatFragment extends Fragment {
     }
 
     // Metode untuk membuat CardView
-    private CardView createCardView(String username, String penyakit, Double persentase, String tanggal,String hasil) {
+    private CardView createCardView(String username, String penyakit, Double persentase, String tanggal) {
         CardView cardView = new CardView(requireContext());
         LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -112,34 +128,8 @@ public class RiwayatFragment extends Fragment {
         addLabelValuePair(linearLayout, "Kepastian: ", String.valueOf(persentase));
 
         cardView.addView(linearLayout);
-
-        // Menambahkan ImageView ke dalam CardView
-        ImageView imageView = new ImageView(requireContext());
-        CardView.LayoutParams imageParams = new CardView.LayoutParams(
-                CardView.LayoutParams.WRAP_CONTENT,
-                CardView.LayoutParams.WRAP_CONTENT
-        );
-        imageParams.setMargins(0, 25, 50 , 0); // Sesuaikan margin sesuai kebutuhan Anda
-        imageParams.gravity = Gravity.END | Gravity.TOP; // Mengatur posisi ImageView di kanan atas CardView
-        imageView.setLayoutParams(imageParams);
-        imageView.setImageResource(R.drawable.preview_65);
-        cardView.addView(imageView);
-
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), review.class);
-                intent.putExtra("username", username);
-                intent.putExtra("hasil", hasil);
-                intent.putExtra("penyakit", penyakit);
-                intent.putExtra("persentase", String.valueOf(persentase));
-                startActivity(intent);
-            }
-        });
-
         return cardView;
     }
-
 
     // Metode untuk membuat layout "No Data"
     private RelativeLayout createNoDataLayout() {

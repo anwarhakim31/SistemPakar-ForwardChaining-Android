@@ -55,13 +55,14 @@
 
     <TextView
         android:id="@+id/welcome"
-        android:layout_width="121dp"
-        android:layout_height="32dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/profile_image_view"
-        android:layout_alignStart="@+id/profile_image_view"
-        android:layout_marginStart="-23dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="5dp"
+
+
+        android:layout_marginTop="20dp"
+
         android:fontFamily="sans-serif-light"
         android:text="Selamat Datang"
         android:textAlignment="center"
@@ -71,15 +72,15 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/welcome"
 
         android:layout_alignStart="@+id/welcome"
         android:layout_alignEnd="@+id/welcome"
-        android:layout_marginStart="21dp"
+
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="21dp"
+
         android:fontFamily="sans-serif-thin"
         android:text="username"
         android:textAlignment="center"

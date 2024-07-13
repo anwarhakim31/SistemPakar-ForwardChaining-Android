@@ -8,15 +8,18 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
-
+import com.google.firebase.auth.FirebaseAuth;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
-    private String username;
+    private String username, email;
 
+    private String[] Email;
+    private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +33,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        auth = FirebaseAuth.getInstance();
 
-        // Ambil nilai 'username' dari intent di sini
+
         username = getIntent().getStringExtra("username");
+
+        email = getIntent().getStringExtra("email");
+
+        if(email!=null){
+            Email =  email != null ? email.split("@"):new String[0];
+        }
+
+
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
@@ -52,15 +65,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RiwayatFragment()).commit();
         } else if (item.getItemId() == R.id.nav_diagnosis) {
             DiagnosisFragment fragment = new DiagnosisFragment();
+
             Bundle args = new Bundle();
             args.putString("username", username);
+
+            if(email!=null){
+                args.putString("email",Email[0]);
+            }
+
             fragment.setArguments(args);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
         } else if (item.getItemId() == R.id.nav_logout) {
-            // Hapus status login dari SharedPreferences
             getSharedPreferences("MyPrefs", MODE_PRIVATE).edit().putBoolean("isLoggedIn", false).apply();
+          auth.signOut();
             Intent logout = new Intent(MainActivity.this, Login.class);
             startActivity(logout);
             finish();
@@ -77,4 +96,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
 }

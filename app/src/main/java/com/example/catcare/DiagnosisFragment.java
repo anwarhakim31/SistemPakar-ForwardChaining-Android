@@ -40,7 +40,7 @@ public class DiagnosisFragment extends Fragment {
     private ArrayList<CheckBox> checkBoxList = new ArrayList<>();
 
     private Button prosesButton;
-    private String username;
+    private String username, email;
 
     @Nullable
     @Override
@@ -57,7 +57,7 @@ public class DiagnosisFragment extends Fragment {
         LinearLayout cardContainer = view.findViewById(R.id.cardContainer);
         cardContainer.removeAllViews();
 
-        cardContainer.setPadding(20, 80, 20, 125);
+        cardContainer.setPadding(20, 80, 20, 130);
 
         TextView titleTextView = new TextView(requireContext());
         LinearLayout.LayoutParams titleLayoutParams = new LinearLayout.LayoutParams(
@@ -122,6 +122,9 @@ public class DiagnosisFragment extends Fragment {
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("gejala");
 
+
+
+
         Query query = databaseReference.orderByChild("id_gejala");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -180,6 +183,7 @@ public class DiagnosisFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             username = args.getString("username");
+            email = args.getString("email");
         }
 
 
@@ -205,10 +209,10 @@ public class DiagnosisFragment extends Fragment {
                 if (gejalaTerpilih.length() == 0) {
                     Toast.makeText(getContext(), "Silakan pilih gejala dahulu!", Toast.LENGTH_SHORT).show();
                 } else {
-
                     Intent intent = new Intent(requireContext(), Hasil_Diagnosa.class);
                     intent.putExtra("HASIL", gejalaTerpilih.toString());
                     intent.putExtra("username", username);
+                    intent.putExtra("email", email);
                     startActivity(intent);
                     getActivity().finish();
                 }
