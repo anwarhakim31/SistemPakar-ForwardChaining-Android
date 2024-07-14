@@ -32,38 +32,38 @@
 
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="30dp"
-                    android:padding="8dp">
+            <!--                <LinearLayout-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:orientation="vertical"-->
+            <!--                    android:layout_marginBottom="30dp"-->
+            <!--                    android:padding="8dp">-->
 
-                    <TextView
-                        android:layout_width="107dp"
-                        android:layout_height="wrap_content"
-                        android:autoSizeMinTextSize="16dp"
+            <!--                    <TextView-->
+            <!--                        android:layout_width="107dp"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:autoSizeMinTextSize="16dp"-->
 
-                        android:text="*Ketentuan"
-                        android:textSize="20dp"
-                        android:layout_marginBottom="8dp"/>
+            <!--                        android:text="*Ketentuan"-->
+            <!--                        android:textSize="20dp"-->
+            <!--                        android:layout_marginBottom="8dp"/>-->
 
-                    <TextView
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:autoSizeMinTextSize="16dp"
-                        android:fontFamily="sans-serif-light"
-                        android:text="- minimal pilih 3 gejala"
-                        android:textSize="16dp" />
-                    <TextView
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:autoSizeMinTextSize="16dp"
-                        android:fontFamily="sans-serif-light"
-                        android:text="- maksimal pilih 5 gejala"
-                        android:textSize="16dp" />
+            <!--                    <TextView-->
+            <!--                        android:layout_width="200dp"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:autoSizeMinTextSize="16dp"-->
+            <!--                        android:fontFamily="sans-serif-light"-->
+            <!--                        android:text="- minimal pilih 3 gejala"-->
+            <!--                        android:textSize="16dp" />-->
+            <!--                    <TextView-->
+            <!--                        android:layout_width="200dp"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:autoSizeMinTextSize="16dp"-->
+            <!--                        android:fontFamily="sans-serif-light"-->
+            <!--                        android:text="- maksimal pilih 5 gejala"-->
+            <!--                        android:textSize="16dp" />-->
 
-                </LinearLayout>
+            <!--                </LinearLayout>-->
 
 
 

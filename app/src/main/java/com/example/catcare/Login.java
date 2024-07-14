@@ -14,47 +14,25 @@ import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.auth.FirebaseUser;
+
 public class Login extends AppCompatActivity {
 
     private EditText etUsername, etPassword;
-    private Button btnLogin, google;
-
+    private Button btnLogin;
     private ImageView show_pass_btn;
-    private TextView btnRegister, forgotPassword;
+       private TextView btnRegister, forgotPassword;
     private DatabaseReference database;
-
-
-    private FirebaseAuth auth;
-     private GoogleSignInClient nGoogleSign;
-    private GoogleApiClient mGoogleClient;
-
-    private static final int RC_SIGN_IN =123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,39 +44,12 @@ public class Login extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         btnRegister = findViewById(R.id.btnRegister);
         btnLogin = findViewById(R.id.btnlogin);
-        forgotPassword = findViewById(R.id.forgotPassword);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         show_pass_btn = findViewById(R.id.show_pass_btn);
-        google = findViewById(R.id.google);
-
-        auth =  FirebaseAuth.getInstance();
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.webclientid)).requestEmail().build();
-
-//        nGoogleSign = GoogleSignIn.getClient(this,gso);
-
-        mGoogleClient = new GoogleApiClient.Builder(this).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-            @Override
-            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                Toast.makeText(getApplicationContext(),"Koneksi dengan akun google gagal",Toast.LENGTH_SHORT).show();
-            }
-        }).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
-
-        google.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                loginAkunGoogle();
-            }
-        });
-
-
-
-
+         forgotPassword = findViewById(R.id.forgotPassword);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,8 +126,7 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
-
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
+         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, Forgot.class));
@@ -192,58 +142,9 @@ public class Login extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
         if (isLoggedIn) {
-
+            // Pengguna sudah masuk, alihkan ke MainActivity
             startActivity(new Intent(Login.this, MainActivity.class));
             finish();
         }
-    }
-    private void loginAkunGoogle() {
-
-
-        Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleClient);
-        startActivityForResult(intent, RC_SIGN_IN);
-    }
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN){
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()){
-                GoogleSignInAccount account = result.getSignInAccount();
-                firebaseAuthWithGoogle(account);
-            }
-        }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        auth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-
-
-                if (task.isSuccessful()){
-                    FirebaseUser user = auth.getCurrentUser();
-                    String photoUrl = "";
-                    String Email = "";
-                    if (user.getPhotoUrl() != null) {
-                        photoUrl = user.getPhotoUrl().toString();
-                    }
-
-                    if (user.getEmail() != null) {
-                        Email = user.getEmail().toString();
-                    }
-
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("username", user.getDisplayName());
-                    intent.putExtra("email", Email);
-                    intent.putExtra("foto", photoUrl);
-                    startActivity(intent);
-                    finish();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 }

@@ -4,7 +4,6 @@ package com.example.catcare;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,7 @@ public class DiagnosisFragment extends Fragment {
     private ArrayList<CheckBox> checkBoxList = new ArrayList<>();
 
     private Button prosesButton;
-    private String username, email;
+    private String username;
 
     @Nullable
     @Override
@@ -57,14 +56,14 @@ public class DiagnosisFragment extends Fragment {
         LinearLayout cardContainer = view.findViewById(R.id.cardContainer);
         cardContainer.removeAllViews();
 
-        cardContainer.setPadding(20, 80, 20, 130);
+        cardContainer.setPadding(20, 20, 20, 125);
 
         TextView titleTextView = new TextView(requireContext());
         LinearLayout.LayoutParams titleLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        titleLayoutParams.setMargins(0, 100, 0, 20); // Mengurangi nilai margin
+        titleLayoutParams.setMargins(0, 50, 0, 20); // Mengurangi nilai margin
         titleTextView.setLayoutParams(titleLayoutParams);
         titleTextView.setText("Daftar Gejala");
         titleTextView.setTextSize(24);
@@ -77,45 +76,45 @@ public class DiagnosisFragment extends Fragment {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        parentLayoutParams.setMargins(40, 0, 0, 100);
+        parentLayoutParams.setMargins(10, 0, 0, 100);
         parentLayout.setLayoutParams(parentLayoutParams);
         parentLayout.setOrientation(LinearLayout.VERTICAL);
         parentLayout.setPadding(8, 8, 8, 8);
         parentLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent)); // Transparent background
 
 
-        TextView titleText = new TextView(requireContext());
-        LinearLayout.LayoutParams titleLayout = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        titleLayoutParams.setMargins(0, 0, 0, 40);
-        titleText.setLayoutParams(titleLayout);
-        titleText.setText("*Ketentuan");
-        titleText.setTextSize(20);
-        parentLayout.addView(titleText);
+//        TextView titleText = new TextView(requireContext());
+//        LinearLayout.LayoutParams titleLayout = new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        titleLayoutParams.setMargins(0, 0, 0, 40);
+//        titleText.setLayoutParams(titleLayout);
+//        titleText.setText("*Ketentuan");
+//        titleText.setTextSize(20);
+//        parentLayout.addView(titleText);
 
 
-        TextView minRequirementTextView = new TextView(requireContext());
-        LinearLayout.LayoutParams minLayoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        minRequirementTextView.setLayoutParams(minLayoutParams);
-        minRequirementTextView.setText("- minimal pilih 3 gejala");
-        minRequirementTextView.setTextSize(16);
-        parentLayout.addView(minRequirementTextView);
-
-        // Menambahkan TextView untuk persyaratan maksimal
-        TextView maxRequirementTextView = new TextView(requireContext());
-        LinearLayout.LayoutParams maxLayoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        maxRequirementTextView.setLayoutParams(maxLayoutParams);
-        maxRequirementTextView.setText("- maksimal pilih 5 gejala");
-        maxRequirementTextView.setTextSize(16);
-        parentLayout.addView(maxRequirementTextView);
+//        TextView minRequirementTextView = new TextView(requireContext());
+//        LinearLayout.LayoutParams minLayoutParams = new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        minRequirementTextView.setLayoutParams(minLayoutParams);
+//        minRequirementTextView.setText("- minimal pilih 3 gejala");
+//        minRequirementTextView.setTextSize(16);
+//        parentLayout.addView(minRequirementTextView);
+//
+//        // Menambahkan TextView untuk persyaratan maksimal
+//        TextView maxRequirementTextView = new TextView(requireContext());
+//        LinearLayout.LayoutParams maxLayoutParams = new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        maxRequirementTextView.setLayoutParams(maxLayoutParams);
+//        maxRequirementTextView.setText("- maksimal pilih 5 gejala");
+//        maxRequirementTextView.setTextSize(16);
+//        parentLayout.addView(maxRequirementTextView);
 
 
         cardContainer.addView(parentLayout);
@@ -183,7 +182,6 @@ public class DiagnosisFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             username = args.getString("username");
-            email = args.getString("email");
         }
 
 
@@ -212,7 +210,6 @@ public class DiagnosisFragment extends Fragment {
                     Intent intent = new Intent(requireContext(), Hasil_Diagnosa.class);
                     intent.putExtra("HASIL", gejalaTerpilih.toString());
                     intent.putExtra("username", username);
-                    intent.putExtra("email", email);
                     startActivity(intent);
                     getActivity().finish();
                 }

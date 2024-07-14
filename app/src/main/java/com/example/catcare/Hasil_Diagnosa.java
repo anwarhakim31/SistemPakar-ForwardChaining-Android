@@ -123,70 +123,53 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         String tanggal = simpleDateFormat.format(calendar.getTime());
 
 
-        Log.d("TAG", tanggal);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        if (databaseHelper.openDatabase())
+            sqLiteDatabase = databaseHelper.getReadableDatabase();
 
         String str_hasil = getIntent().getStringExtra("HASIL");
         String username = getIntent().getStringExtra("username");
-        String email = getIntent().getStringExtra("email");
 
-
-
-
-
-
-
-        String[] gejala_terpilih = str_hasil != null ? str_hasil.split("#") : new String[0];
+        String[] gejala_terpilih = new String[0];
+        if (str_hasil != null) {
+            gejala_terpilih = str_hasil.split("#");
+        }
 
         double cf_gabungan;
         double cf;
         HashMap<String, Double> mapHasil = new HashMap<>();
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-        sqLiteDatabase = dbHelper.getReadableDatabase();
-
-
-        String query_penyakit = "SELECT id_penyakit FROM penyakit order by id_penyakit";
+        String query_penyakit = "SELECT id_penyakit FROM penyakit ORDER BY id_penyakit";
         Cursor cursor_penyakit = sqLiteDatabase.rawQuery(query_penyakit, null);
         while (cursor_penyakit.moveToNext()) {
-            cf_gabungan = (double) 0;
-            int i = 0;
+            String id_penyakit = cursor_penyakit.getString(0);
 
-            String query_rule = "SELECT nilai_cf, id_gejala FROM rules where id_penyakit = '" + cursor_penyakit.getString(0) + "'";
-            Cursor cursor_rule = sqLiteDatabase.rawQuery(query_rule, null);
-            while (cursor_rule.moveToNext()) {
-                cf = cursor_rule.getDouble(0);
-                for (String s_gejala_terpilih : gejala_terpilih) {
-                    String query_gejala = "SELECT id_gejala FROM gejala where nama_gejala = '" + s_gejala_terpilih + "'";
-                    Cursor cursor_gejala = sqLiteDatabase.rawQuery(query_gejala, null);
+            String query_gejala = "SELECT id_gejala FROM rules WHERE id_penyakit = '" + id_penyakit + "'";
+            Cursor cursor_gejala = sqLiteDatabase.rawQuery(query_gejala, null);
 
+            int total_gejala = cursor_gejala.getCount();
+            int matched_gejala = 0;
 
-                    cursor_gejala.moveToFirst();
+            while (cursor_gejala.moveToNext()) {
+                String id_gejala = cursor_gejala.getString(0);
+                for (String gejala : gejala_terpilih) {
+                    String query_gejala_terpilih = "SELECT id_gejala FROM gejala WHERE nama_gejala = '" + gejala + "'";
+                    Cursor cursor_gejala_terpilih = sqLiteDatabase.rawQuery(query_gejala_terpilih, null);
+                    cursor_gejala_terpilih.moveToFirst();
 
-                    if (cursor_gejala.moveToFirst()) {
-
-                        if (cursor_rule.getString(1).equals(cursor_gejala.getString(0))) {
-                            if (i > 1) {
-                                cf_gabungan = cf + (cf_gabungan * (1 - cf));
-                            } else if (i == 1) {
-                                cf_gabungan = cf_gabungan + (cf * (1 - cf_gabungan));
-                            } else {
-                                cf_gabungan = cf;
-                            }
-                            i++;
-                        }
-                        cursor_gejala.close();
-                    } else {
-
-                        Log.e("CursorEmpty", "Cursor_gejala is empty");
+                    if (cursor_gejala_terpilih.getString(0).equals(id_gejala)) {
+                        matched_gejala++;
                     }
+                    cursor_gejala_terpilih.close();
                 }
-
             }
-            cursor_rule.close();
-            mapHasil.put(cursor_penyakit.getString(0), cf_gabungan * 100);
+            cursor_gejala.close();
 
+            double probability = ((double) matched_gejala / total_gejala) * 100;
+            mapHasil.put(id_penyakit, probability);
         }
         cursor_penyakit.close();
+
 
         StringBuffer output_gejala_terpilih = new StringBuffer();
         int no = 1;
@@ -205,6 +188,7 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         String kode_penyakit = entry.getKey();
         double hasil_cf = entry.getValue();
         int persentase = (int) hasil_cf;
+        Log.d("TAG", String.valueOf(hasil_cf));
 
         String query_penyakit_hasil = "SELECT nama_penyakit FROM penyakit where id_penyakit='" + kode_penyakit + "'";
         Cursor cursor_hasil = sqLiteDatabase.rawQuery(query_penyakit_hasil, null);
@@ -251,18 +235,12 @@ public class Hasil_Diagnosa extends AppCompatActivity {
                         riwayatData.put("penyakit", namaPenyakit);
                         riwayatData.put("persentase", persentase);
                         riwayatData.put("tanggal", tanggal);
-
-                        if(username!=null && email != null){
-                            riwayatRef.child(email).push().setValue(riwayatData);
-                        } else if (username!=null && email ==null) {
-                            riwayatRef.child(username).push().setValue(riwayatData);
-                        }
+                        riwayatData.put("hasil", str_hasil);
 
 
-
+                        riwayatRef.child(username).push().setValue(riwayatData);
                         break;
                     }
-
                 }
             }
 
@@ -280,52 +258,34 @@ public class Hasil_Diagnosa extends AppCompatActivity {
         btnDiagnosis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                DiagnosisFragment diagnosisFragment = new DiagnosisFragment();
-                Bundle args = new Bundle();
-                args.putString("username", username);
-                if(email!=null){
-
-                args.putString("email", email);
-                }
-                diagnosisFragment.setArguments(args);
-
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.diagnosa, diagnosisFragment)
-                        .commit();
-
+                Intent intent = new Intent(Hasil_Diagnosa.this, MainActivity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("navigateTo", "diagnosis");
+                startActivity(intent);
+                finish();
             }
         });
-
         btnBeranda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Buat objek fragment yang akan dituju
                 Intent masuk = new Intent(getApplicationContext(), MainActivity.class);
                 masuk.putExtra("username", username);
-                if(email!=null){
-                    masuk.putExtra("email", email);
-                }
                 startActivity(masuk);
                 finish();
             }
         });
     }
 
-    public static HashMap<String, Double> sortByValue(HashMap<String, Double> hm) {
-        List<Map.Entry<String, Double>> list = new LinkedList<Map.Entry<String, Double>>(hm.entrySet());
 
-        Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
-            public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
-                return (o2.getValue()).compareTo(o1.getValue());
-            }
-        });
-
-        HashMap<String, Double> temp = new LinkedHashMap<String, Double>();
-        for (Map.Entry<String, Double> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
+    private static Map<String, Double> sortByValue(Map<String, Double> unsortMap) {
+        List<Map.Entry<String, Double>> list = new LinkedList<>(unsortMap.entrySet());
+        list.sort(Map.Entry.comparingByValue((o1, o2) -> o2.compareTo(o1)));
+        Map<String, Double> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Double> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
         }
-        return temp;
+        return sortedMap;
     }
 
 
