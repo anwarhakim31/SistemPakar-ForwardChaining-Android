@@ -32,7 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Forgot extends AppCompatActivity {
-    private EditText etUsername, etEmail, etPassword,confPassword;
+    private EditText etUsername, etPassword,confPassword;
     private TextView ingatakun;
     private Button btnGanti;
     private boolean mail = false;
@@ -53,7 +53,7 @@ public class Forgot extends AppCompatActivity {
         });
 
         show_pass_btn = findViewById(R.id.show_pass_btn);
-        etEmail = findViewById(R.id.etEmail);
+        etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnGanti = findViewById(R.id.btnGanti);
         confPassword = findViewById(R.id.etPasswords);
@@ -82,28 +82,22 @@ public class Forgot extends AppCompatActivity {
                 etPassword.setSelection(selection);
             }
         });
-        etEmail.addTextChangedListener(new TextWatcher() {
+        etUsername.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // Method ini dipanggil sebelum teks berubah
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String email = etEmail.getText().toString().trim();
+                String username = etUsername.getText().toString().trim();
 
 
             }
             @Override
             public void afterTextChanged(Editable s) {
-                String email = etEmail.getText().toString().trim();
+                String username = etUsername.getText().toString().trim();
 
-                if (!email.contains("@")) {
 
-                    etEmail.setError("Email harus terdapat karakter '@' ");
-                    mail = false;
-                    return;
-
-                }
                 database = FirebaseDatabase.getInstance().getReference("users");
                 database.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -111,20 +105,17 @@ public class Forgot extends AppCompatActivity {
 
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
 
-                            String existingEmail = userSnapshot.child("email").getValue(String.class);
+                            String existingUsername = userSnapshot.child("username").getValue(String.class);
 
-                            Log.d("TAG", existingEmail);
-                            Log.d("TAG", email);
-                            Log.d("TAG", String.valueOf(existingEmail.equals(email)));
 
-                            if (existingEmail != null && existingEmail.equals(email)) {
 
-                                etEmail.setError(null);
-                                mail = true; // Mengatur mail menjadi true karena email sudah digunakan
+                            if (existingUsername != null && existingUsername.equals(username)) {
+                                etUsername.setError("Akun tidak terdaftar");
+                                mail = false;
 
                             }else{
-                                etEmail.setError("Email tidak valid");
-                                mail = false;
+                                etUsername.setError(null);
+                                mail = true;
 
                             }
 
@@ -152,7 +143,7 @@ public class Forgot extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String password = etPassword.getText().toString().trim();
-                String email = etEmail.getText().toString().trim();
+                String username = etUsername.getText().toString().trim();
                 String passwordRegex = "^(?=.*\\d)[\\w\\W]*$";
 
                 if (password.isEmpty()) {
@@ -167,8 +158,8 @@ public class Forgot extends AppCompatActivity {
                 } else if (!password.matches(passwordRegex)) {
                     etPassword.setError("Password setidaknya harus mengandung satu angka");
                     pass = false;
-                } else if (password.equals(email)) {
-                    etPassword.setError("Password tidak boleh sama dengan email");
+                } else if (password.equals(username)) {
+                    etPassword.setError("Password tidak boleh sama dengan username");
                     pass = false;
                 } else {
                     etPassword.setError(null);
@@ -202,15 +193,15 @@ public class Forgot extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final String email = etEmail.getText().toString().trim();
+                final String username = etUsername.getText().toString().trim();
                 final String password = etPassword.getText().toString().trim();
                 final String cpassword = confPassword.getText().toString().trim();
 
 
 
 
-                if (TextUtils.isEmpty(email)) {
-                    etEmail.setError("Masukan Email");
+                if (TextUtils.isEmpty(username)) {
+                    etUsername.setError("Masukan Email");
                     return;
                 }
                 if (TextUtils.isEmpty(password)) {
@@ -224,10 +215,7 @@ public class Forgot extends AppCompatActivity {
                     return;
                 }
 
-                if (!mail) {
-                    etEmail.setError("Email tidak valid");
-                    return;
-                }
+
                 if (!cpass) {
                     confPassword.setError("Password tidak sama");
                     return;
@@ -239,19 +227,19 @@ public class Forgot extends AppCompatActivity {
                     database.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            boolean emailFound = false;
+                            boolean usernameFound = false;
                             for (DataSnapshot userSnapshot : snapshot.getChildren()) {
 
-                                String emails = userSnapshot.child("email").getValue(String.class);
-                                if (emails != null && emails.equals(email)) {
+                                String usernames = userSnapshot.child("username").getValue(String.class);
+                                if (usernames != null && usernames.equals(username)) {
                                     userSnapshot.child("password").getRef().setValue(cpassword);
                                     Toast.makeText(Forgot.this, "Berhasil mengganti password", Toast.LENGTH_SHORT).show();
-                                    emailFound = true;
+                                    usernameFound = true;
                                     break;
                                 }
                             }
-                            if (!emailFound) {
-                                Toast.makeText(Forgot.this, "Email tidak ditemukan", Toast.LENGTH_SHORT).show();
+                            if (!usernameFound) {
+                                Toast.makeText(Forgot.this, "Akun tidak terdaftar", Toast.LENGTH_SHORT).show();
                             } else {
                                 Intent loginIntent = new Intent(Forgot.this, Login.class);
                                 startActivity(loginIntent);

@@ -24,7 +24,7 @@
         app:layout_constraintVertical_bias="0.255" />
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -54,10 +54,10 @@
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
 
-        app:layout_constraintEnd_toEndOf="@+id/etEmail"
+        app:layout_constraintEnd_toEndOf="@+id/etUsername"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/etEmail"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail">
+        app:layout_constraintStart_toStartOf="@+id/etUsername"
+        app:layout_constraintTop_toBottomOf="@+id/etUsername">
 
         <EditText
             android:id="@+id/etPassword"
@@ -130,9 +130,12 @@
         android:layout_marginTop="36dp"
         android:background="@drawable/btn_bg"
         android:text="Ubah Password"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/etPasswords"
         app:layout_constraintStart_toStartOf="@+id/etPasswords"
         app:layout_constraintTop_toBottomOf="@+id/etPasswords" />
+
+
 
     <EditText
         android:id="@+id/etPasswords"
@@ -143,7 +146,7 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="Konfirmasi Password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:paddingLeft="20dp"
         android:paddingTop="15dp"
         android:paddingRight="10dp"
