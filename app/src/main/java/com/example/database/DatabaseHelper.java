@@ -36,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.getReadableDatabase();
     }
 
-    //fungsi untuk update database, jika diperlukan
+
     public void updateDatabase() throws IOException {
         if (needUpdate) {
             File dbFile = new File(DB_PATH + DB_NAME);
@@ -99,14 +99,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
     }
 
-    //jika versi database lebih baru maka perlu di update
+
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
         if (newVersion > oldVersion)
             needUpdate = true;
     }
 
-    //get list daftar penyakit
+
     public ArrayList<ModelDaftarPenyakit> getDaftarPenyakit() {
         ArrayList<ModelDaftarPenyakit> draftOffline = new ArrayList<>();
         SQLiteDatabase database = this.getWritableDatabase();
